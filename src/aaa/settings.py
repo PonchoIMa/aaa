@@ -25,6 +25,8 @@ SECRET_KEY = 'django-insecure-envt*s7iug9o&0vrrh)*@+ds2v!-t5i_l+i+@+!ddljg3(2n4y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Custom user model added!
+AUTH_USER_MODEL = 'aaa.User'
 ALLOWED_HOSTS = []
 
 
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'aaa',
 ]
 
 MIDDLEWARE = [

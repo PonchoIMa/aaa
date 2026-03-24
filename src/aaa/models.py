@@ -7,6 +7,20 @@ class Role(models.Model):
     def __str__(self):
         return self.name
 
+class UserManager(BaseUserManager):
+    def create_user(self, email, password = None, **extra_args):
+        if(not email):
+            raise ValueError('Email is required')
+
+        email = self.normalize_email(email)
+        user  = self.model(email = email, **extra_args)
+        user.set_password(password)
+        user.save(using = self._db)
+        return user
+
+    def create_superuser(self, email, password, **extra_args):
+        return self.create_user(email, password, **extra_fields)
+
 class User(AbstractBaseUser):
     email       = models.EmailField(unique = True)
     first_name  = models.CharField(max_length = 150)
@@ -14,7 +28,8 @@ class User(AbstractBaseUser):
     role        = models.ForeignKey(Role, on_delete = models.SET_NULL, null = True)
     is_active   = models.BooleanField(default = True) # Soft delete flag
 
-    USERNAME_FIELD = 'email'
+    objects         = UserManager()
+    USERNAME_FIELD  = 'email'
 
 class BusinessElement(models.Model):
     # This can eventually amplified 
