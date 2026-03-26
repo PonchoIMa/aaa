@@ -39,3 +39,15 @@ class LoginView(APIView):
             }, status=status.HTTP_200_OK)
         
         return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
+
+class DeactivateAccountView(APIView):
+    def post(self, request):
+        user = request.user 
+        
+        if(not user.is_authenticated):
+            return Response({"error": "Unauthorized"}, status = status.HTTP_401_UNAUTHORIZED)
+            
+        user.is_active = False
+        user.save()
+        
+        return Response({"message": "Account deactivated successfully"}, status = status.HTTP_200_OK)
